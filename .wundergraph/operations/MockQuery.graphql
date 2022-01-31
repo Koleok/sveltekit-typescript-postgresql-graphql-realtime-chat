@@ -1,7 +1,7 @@
 {
-    findFirstusers: db_findFirstusers {
-        id
-        email
-        name
-    }
+  findFirstusers: db_findFirstusers {
+    id
+    email
+    name
+  }
 }

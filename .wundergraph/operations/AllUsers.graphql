@@ -1,11 +1,11 @@
 query ($email: String!) {
-    findManyusers: db_findManyusers(where: {email: {equals: $email}}) {
-        id
-        email
-        name
-        messages(take: 5,orderBy: [{id: desc}]) {
-            id
-            message
-        }
+  findManyusers: db_findManyusers(where: { email: { equals: $email } }) {
+    id
+    email
+    name
+    messages(take: 5, orderBy: [{ id: desc }]) {
+      id
+      message
     }
+  }
 }
