@@ -33,7 +33,7 @@
   const { client, user: clientSideUser, initialized } = createWundergraphStore()
 
   let message = ''
-  let messages: Message[] = !clientSideUser ? serverSideMessages : []
+  let messages = serverSideMessages
 
   client.liveQuery.Messages({ refetchOnWindowFocus: true }, (res) => {
     if (res.status === 'ok') {
@@ -58,8 +58,46 @@
 </script>
 
 <div class="container">
+  {#if messages?.length}
+    <h3>Messages</h3>
+
+    <fieldset>
+      <table>
+        <colgroup>
+          <col style="width: 15em" />
+          <col />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>from</th>
+            <th>message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each messages as message}
+            <tr transition:fade>
+              <td>{message.users.name}</td>
+              <td>{message.message}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </fieldset>
+  {/if}
+
   {#if user}
-    <h2>User</h2>
+    <h3>Add Message</h3>
+    <fieldset>
+      <input
+        placeholder="message"
+        value={message}
+        on:change={(e) => (message = e.target['value'])}
+      />
+
+      <button on:click={() => addMessage(message)}> submit </button>
+    </fieldset>
+
+    <h3>User</h3>
     <fieldset>
       <table>
         <tbody>
@@ -90,50 +128,12 @@
 
       <button on:click={logout}> Logout </button>
     </fieldset>
-
-    <h3>Add Message</h3>
-    <fieldset>
-      <input
-        placeholder="message"
-        value={message}
-        on:change={(e) => (message = e.target['value'])}
-      />
-
-      <button on:click={() => addMessage(message)}> submit </button>
-    </fieldset>
   {:else}
     <div>
       <p>Please Login to be able to use the chat!</p>
 
       <button on:click={() => client.login.github()}>Login GitHub</button>
     </div>
-  {/if}
-
-  {#if messages?.length}
-    <h3>Messages</h3>
-
-    <fieldset>
-      <table>
-        <colgroup>
-          <col style="width: 15em" />
-          <col />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>from</th>
-            <th>message</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each messages as message}
-            <tr transition:fade>
-              <td>{message.users.name}</td>
-              <td>{message.message}</td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </fieldset>
   {/if}
 </div>
 
