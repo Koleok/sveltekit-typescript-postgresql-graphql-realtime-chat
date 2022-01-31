@@ -1,65 +1,54 @@
 import {
-    Application,
-    authProviders,
-    configureWunderGraphApplication,
-    cors, EnvironmentVariable,
-    introspect,
-    templates
-} from "@wundergraph/sdk";
-import operations from "./wundergraph.operations";
-import wunderGraphHooks from "./wundergraph.hooks";
+  Application,
+  authProviders,
+  configureWunderGraphApplication,
+  cors,
+  EnvironmentVariable,
+  introspect,
+  templates,
+} from '@wundergraph/sdk'
+import operations from './wundergraph.operations'
+import wunderGraphHooks from './wundergraph.hooks'
 
 const db = introspect.postgresql({
-    apiNamespace: "db",
-    databaseURL: "postgresql://admin:admin@localhost:54322/example?schema=public",
-});
+  apiNamespace: 'db',
+  databaseURL: 'postgresql://admin:admin@localhost:54322/example?schema=public',
+})
 
 const myApplication = new Application({
-    name: "app",
-    apis: [
-        db,
-    ],
-});
+  name: 'app',
+  apis: [db],
+})
 
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-    application: myApplication,
-    codeGenerators: [
-        {
-            templates: [
-                // use all the typescript react templates to generate a client
-                templates.typescript.operations,
-                templates.typescript.linkBuilder,
-                ...templates.typescript.react
-            ],
-        },
-    ],
-    cors: {
-        ...cors.allowAll,
-        allowedOrigins: process.env.NODE_ENV === "production" ?
-            [
-                "http://localhost:3000"
-            ] :
-            [
-                "http://localhost:3000",
-            ]
+  application: myApplication,
+  codeGenerators: [
+    {
+      templates: [
+        // use all the typescript react templates to generate a client
+        templates.typescript.operations,
+        templates.typescript.linkBuilder,
+        ...templates.typescript.react,
+      ],
     },
-    authorization: {
-        roles: [
-            "user",
-            "superadmin"
-        ],
+  ],
+  cors: {
+    ...cors.allowAll,
+    allowedOrigins:
+      process.env.NODE_ENV === 'production'
+        ? ['http://localhost:3000']
+        : ['http://localhost:3000'],
+  },
+  authorization: {
+    roles: ['user', 'superadmin'],
+  },
+  authentication: {
+    cookieBased: {
+      providers: [authProviders.demo()],
+      authorizedRedirectUris: ['http://localhost:3000'],
     },
-    authentication: {
-        cookieBased: {
-            providers: [
-                authProviders.demo(),
-            ],
-            authorizedRedirectUris: [
-                "http://localhost:3000"
-            ]
-        },
-    },
-    operations,
-    hooks: wunderGraphHooks.config,
-});
+  },
+  operations,
+  hooks: wunderGraphHooks.config,
+})

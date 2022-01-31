@@ -1,4 +1,4 @@
-mutation ($email: String!, $now: db_DateTime! @injectCurrentDateTime)
+mutation ($email: String!, $now: DateTime! @injectCurrentDateTime)
 @internalOperation {
   updateOneusers: db_updateOneusers(
     where: { email: $email }
