@@ -26,10 +26,12 @@ configureWunderGraphApplication({
   codeGenerators: [
     {
       templates: [
-        // use all the typescript react templates to generate a client
-        templates.typescript.operations,
+        templates.typescript.client,
+        templates.typescript.inputModels,
+        templates.typescript.jsonSchema,
         templates.typescript.linkBuilder,
-        ...templates.typescript.react,
+        templates.typescript.operations,
+        templates.typescript.responseModels,
       ],
     },
   ],
