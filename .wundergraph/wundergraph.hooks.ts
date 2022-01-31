@@ -1,8 +1,10 @@
 import { configureWunderGraphHooksWithClient } from './generated/wundergraph.hooks.configuration'
 
-// replace or add your own github email address
-// to make yourself a super admin as well
-const superAdmins = ['jens@wundergraph.com']
+const superAdmins = [
+  'jens@wundergraph.com',
+  // replace or add your own github email address
+  // to make yourself a super admin as well
+]
 
 const wunderGraphHooks = configureWunderGraphHooksWithClient((client) => ({
   authentication: {
@@ -16,6 +18,7 @@ const wunderGraphHooks = configureWunderGraphHooksWithClient((client) => ({
       }
     },
     mutatingPostAuthentication: async (user) => {
+      console.log(superAdmins)
       if (!user.email) {
         return {
           status: 'deny',
