@@ -16,15 +16,8 @@
           "name": "AllUsers",
           "request": {
             "url": {
-              "path": [
-                "api",
-                "main",
-                "operations",
-                "AllUsers"
-              ],
-              "host": [
-                "{{apiBaseUrl}}"
-              ],
+              "path": ["api", "main", "operations", "AllUsers"],
+              "host": ["{{apiBaseUrl}}"],
               "query": [],
               "variable": []
             },
@@ -44,15 +37,8 @@
           "name": "Messages",
           "request": {
             "url": {
-              "path": [
-                "api",
-                "main",
-                "operations",
-                "Messages"
-              ],
-              "host": [
-                "{{apiBaseUrl}}"
-              ],
+              "path": ["api", "main", "operations", "Messages"],
+              "host": ["{{apiBaseUrl}}"],
               "query": [],
               "variable": []
             },
@@ -72,15 +58,8 @@
           "name": "MockQuery",
           "request": {
             "url": {
-              "path": [
-                "api",
-                "main",
-                "operations",
-                "MockQuery"
-              ],
-              "host": [
-                "{{apiBaseUrl}}"
-              ],
+              "path": ["api", "main", "operations", "MockQuery"],
+              "host": ["{{apiBaseUrl}}"],
               "query": [],
               "variable": []
             },
@@ -114,15 +93,8 @@
           "name": "AddMessage",
           "request": {
             "url": {
-              "path": [
-                "api",
-                "main",
-                "operations",
-                "AddMessage"
-              ],
-              "host": [
-                "{{apiBaseUrl}}"
-              ],
+              "path": ["api", "main", "operations", "AddMessage"],
+              "host": ["{{apiBaseUrl}}"],
               "query": [],
               "variable": []
             },
@@ -156,9 +128,7 @@
                 "operations",
                 "DeleteAllMessagesByUserEmail"
               ],
-              "host": [
-                "{{apiBaseUrl}}"
-              ],
+              "host": ["{{apiBaseUrl}}"],
               "query": [],
               "variable": []
             },
