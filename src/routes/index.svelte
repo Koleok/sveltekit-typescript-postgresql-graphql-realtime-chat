@@ -61,15 +61,32 @@
   {#if user}
     <h2>User</h2>
     <fieldset>
-      <p>
-        Logged in as: {user.name}, {user.email} ,{' '}
-        {#await userInfo then info}
-          {#if info.status === 'ok' && info.body.data?.findFirstusers?.lastlogin}
-            <p>LastLogin: {info.body.data.findFirstusers.lastlogin}</p>
-          {/if}
-        {/await}
-        {JSON.stringify(user.roles)}
-      </p>
+      <table>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>{user.name}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{user.email}</td>
+          </tr>
+          <tr>
+            <td>Roles</td>
+            <td>{user.roles}</td>
+          </tr>
+          <tr>
+            <td>Last Login</td>
+            {#await userInfo}
+              <td>loading...</td>
+            {:then info}
+              {#if info.status === 'ok' && info.body.data?.findFirstusers?.lastlogin}
+                <td>{info.body.data.findFirstusers.lastlogin}</td>
+              {/if}
+            {/await}
+          </tr>
+        </tbody>
+      </table>
 
       <button on:click={logout}> Logout </button>
     </fieldset>
