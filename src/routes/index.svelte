@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
-  import { fade } from 'svelte/transition'
   import { Client } from '../../.wundergraph/generated/client'
   import type { Load } from '@sveltejs/kit'
+
+  export const prerender = true
 
   export const load: Load = async () => {
     const client = new Client()
@@ -23,19 +24,22 @@
 </script>
 
 <script lang="ts">
-  import { createWundergraphStore } from '$lib/wundergraph.store'
+  import {
+    createSubscription,
+    createWundergraphStore,
+  } from '$lib/wundergraph.store'
   import type { User } from '../../.wundergraph/generated/client'
   import type { Message } from '../lib/types'
 
   export let serverSideUser: User
   export let serverSideMessages: Message[]
 
-  const { client, user: clientSideUser, initialized } = createWundergraphStore()
+  const { client, user: clientSideUser, clientState } = createWundergraphStore()
 
   let message = ''
   let messages = serverSideMessages
 
-  client.liveQuery.Messages({ refetchOnWindowFocus: true }, (res) => {
+  createSubscription(client.liveQuery.Messages, (res) => {
     if (res.status === 'ok') {
       messages = res.body.data?.findManymessages.reverse()
     }
@@ -51,52 +55,16 @@
 
   const userInfo = client.query.UserInfo({})
 
-  const user =
-    typeof window !== 'undefined' && $initialized
+  $: user =
+    typeof window !== 'undefined' && $clientState === 'initialized'
       ? $clientSideUser
       : serverSideUser
 </script>
 
+<h1>Home</h1>
+
 <div class="container">
-  {#if messages?.length}
-    <h3>Messages</h3>
-
-    <fieldset>
-      <table>
-        <colgroup>
-          <col style="width: 15em" />
-          <col />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>from</th>
-            <th>message</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each messages as message}
-            <tr transition:fade>
-              <td>{message.users.name}</td>
-              <td>{message.message}</td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
-    </fieldset>
-  {/if}
-
   {#if user}
-    <h3>Add Message</h3>
-    <fieldset>
-      <input
-        placeholder="message"
-        value={message}
-        on:change={(e) => (message = e.target['value'])}
-      />
-
-      <button on:click={() => addMessage(message)}> submit </button>
-    </fieldset>
-
     <h3>User</h3>
     <fieldset>
       <table>
@@ -128,12 +96,50 @@
 
       <button on:click={logout}> Logout </button>
     </fieldset>
+
+    <h3>Add Message</h3>
+    <fieldset>
+      <input
+        placeholder="message"
+        value={message}
+        on:change={(e) => (message = e.target['value'])}
+      />
+
+      <button on:click={() => addMessage(message)}> submit </button>
+    </fieldset>
   {:else}
     <div>
       <p>Please Login to be able to use the chat!</p>
 
       <button on:click={() => client.login.github()}>Login GitHub</button>
     </div>
+  {/if}
+
+  {#if messages?.length}
+    <h3>Messages</h3>
+
+    <fieldset>
+      <table>
+        <colgroup>
+          <col style="width: 15em" />
+          <col />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>from</th>
+            <th>message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each messages as message}
+            <tr>
+              <td>{message.users.name}</td>
+              <td>{message.message}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </fieldset>
   {/if}
 </div>
 

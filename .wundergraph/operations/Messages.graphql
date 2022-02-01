@@ -5,6 +5,7 @@
     users {
       id
       name
+      email
     }
   }
 }

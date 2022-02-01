@@ -6,6 +6,7 @@
     <li><a href="/">Home</a></li>
     <li><a href="/mock">Mock</a></li>
     <li><a href="/updateuser">Update User</a></li>
+    <li><a href="/admin">Admin</a></li>
   </ul>
 </nav>
 
