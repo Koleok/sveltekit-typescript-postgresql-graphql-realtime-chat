@@ -79,6 +79,7 @@ export interface MessagesResponse {
 			users: {
 				id: number;
 				name: string;
+				email: string;
 			};
 		}[];
 	};

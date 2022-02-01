@@ -181,9 +181,9 @@ const jsonSchema: Schema = {
 									message: { type: "string" },
 									users: {
 										type: "object",
-										properties: { id: { type: "integer" }, name: { type: "string" } },
+										properties: { id: { type: "integer" }, name: { type: "string" }, email: { type: "string" } },
 										additionalProperties: false,
-										required: ["id", "name"],
+										required: ["id", "name", "email"],
 									},
 								},
 								additionalProperties: false,

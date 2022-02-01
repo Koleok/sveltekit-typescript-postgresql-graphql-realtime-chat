@@ -202,9 +202,9 @@
         "postResolveTransformations": []
       },
       {
-        "content": "query Messages {\n  findManymessages: db_findManymessages(take: 20, orderBy: [{id: desc}]) {\n    id\n    message\n    users {\n      id\n      name\n    }\n  }\n}\n",
+        "content": "query Messages {\n  findManymessages: db_findManymessages(take: 20, orderBy: [{id: desc}]) {\n    id\n    message\n    users {\n      id\n      name\n      email\n    }\n  }\n}\n",
         "name": "Messages",
-        "responseSchema": "{\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"findManymessages\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"message\":{\"type\":\"string\"},\"users\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"}},\"additionalProperties\":false,\"required\":[\"id\",\"name\"]}},\"additionalProperties\":false,\"required\":[\"id\",\"message\",\"users\"]}}},\"additionalProperties\":false,\"required\":[\"findManymessages\"]}},\"additionalProperties\":false}",
+        "responseSchema": "{\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"findManymessages\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"message\":{\"type\":\"string\"},\"users\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"name\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"}},\"additionalProperties\":false,\"required\":[\"id\",\"name\",\"email\"]}},\"additionalProperties\":false,\"required\":[\"id\",\"message\",\"users\"]}}},\"additionalProperties\":false,\"required\":[\"findManymessages\"]}},\"additionalProperties\":false}",
         "variablesSchema": "{\"type\":\"object\",\"properties\":{},\"additionalProperties\":false}",
         "interpolationVariablesSchema": "{\"type\":\"object\",\"properties\":{},\"additionalProperties\":false}",
         "operationType": 0,
