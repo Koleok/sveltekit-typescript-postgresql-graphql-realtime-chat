@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Json from '../lib/JSON.svelte'
-  import { createWundergraphStore } from '../lib/wundergraph.store'
+  import Json from '$lib/JSON.svelte'
+  import { createWundergraphStore } from '$lib/wundergraph.store'
 
   const { client } = createWundergraphStore()
 

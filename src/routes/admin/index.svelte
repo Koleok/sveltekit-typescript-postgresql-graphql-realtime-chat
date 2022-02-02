@@ -42,6 +42,7 @@
     }
   })
 
+  // Demonstration of running a mutation without the the svelte-store based utility
   const deleteAllMessagesFrom = (email: string) =>
     client.mutation
       .DeleteAllMessagesByUserEmail({ input: { email } })

@@ -24,17 +24,25 @@
 </script>
 
 <script lang="ts">
+  import { browser } from '$app/env'
+  import type { Message } from '$lib/types'
+  import type { User } from '../../.wundergraph/generated/client'
   import {
     createSubscription,
     createWundergraphStore,
+    useMutation,
+    useQuery,
   } from '$lib/wundergraph.store'
-  import type { User } from '../../.wundergraph/generated/client'
-  import type { Message } from '../lib/types'
 
   export let serverSideUser: User
   export let serverSideMessages: Message[]
 
-  const { client, user: clientSideUser, clientState } = createWundergraphStore()
+  const {
+    client,
+    user: clientSideUser,
+    clientState,
+    logout,
+  } = createWundergraphStore()
 
   let message = ''
   let messages = serverSideMessages
@@ -45,20 +53,13 @@
     }
   })
 
-  const addMessage = (message: string) =>
-    client.mutation.AddMessage({ input: { message } })
-
-  const logout = async () => {
-    await client.logout()
-    window.location.reload()
-  }
-
-  const userInfo = client.query.UserInfo({})
+  const { mutate: addMessage } = useMutation(client.mutation.AddMessage)
+  const { response: userQuery, state: userQueryState } = useQuery(
+    client.query.UserInfo
+  )
 
   $: user =
-    typeof window !== 'undefined' && $clientState === 'initialized'
-      ? $clientSideUser
-      : serverSideUser
+    browser && $clientState === 'initialized' ? $clientSideUser : serverSideUser
 </script>
 
 <h1>Home</h1>
@@ -83,13 +84,13 @@
           </tr>
           <tr>
             <td>Last Login</td>
-            {#await userInfo}
+            {#if $userQueryState === 'loading'}
               <td>loading...</td>
-            {:then info}
-              {#if info.status === 'ok' && info.body.data?.findFirstusers?.lastlogin}
-                <td>{info.body.data.findFirstusers.lastlogin}</td>
+            {:else if $userQueryState === 'loaded'}
+              {#if $userQuery.status === 'ok' && $userQuery.body.data?.findFirstusers?.lastlogin}
+                <td>{$userQuery.body.data.findFirstusers.lastlogin}</td>
               {/if}
-            {/await}
+            {/if}
           </tr>
         </tbody>
       </table>
@@ -105,7 +106,9 @@
         on:change={(e) => (message = e.target['value'])}
       />
 
-      <button on:click={() => addMessage(message)}> submit </button>
+      <button on:click={() => addMessage({ input: { message } })}>
+        submit
+      </button>
     </fieldset>
   {:else}
     <div>
