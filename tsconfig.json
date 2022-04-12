@@ -32,8 +32,8 @@
     "src/**/*.js",
     "src/**/*.ts",
     "src/**/*.svelte",
-    ".wundergraph/generated/client.ts",
-    ".wundergraph/generated/models.ts"
+    ".wundergraph/*.ts",
+    ".wundergraph/generated/*.ts"
   ],
   "exclude": ["node_modules"]
 }

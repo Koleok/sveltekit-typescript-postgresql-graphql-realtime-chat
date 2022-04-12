@@ -3,12 +3,11 @@ import {
   authProviders,
   configureWunderGraphApplication,
   cors,
-  EnvironmentVariable,
   introspect,
   templates,
 } from '@wundergraph/sdk'
 import operations from './wundergraph.operations'
-import wunderGraphHooks from './wundergraph.hooks'
+import server from './wundergraph.server'
 
 const db = introspect.postgresql({
   apiNamespace: 'db',
@@ -52,5 +51,5 @@ configureWunderGraphApplication({
     },
   },
   operations,
-  hooks: wunderGraphHooks.config,
+  server,
 })
